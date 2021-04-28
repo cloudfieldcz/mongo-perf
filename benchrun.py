@@ -152,6 +152,7 @@ def main():
         print("Warning: You specified one of username or password, but not the other.")
         print("         Benchrun will continue without authentication.")
 
+
     if args.includeFilter == [] :
         args.includeFilter = '%'
     elif len(args.includeFilter) == 1 :
@@ -159,12 +160,14 @@ def main():
         if args.includeFilter == ['%'] :
             args.includeFilter = '%'
 
+
+
     if args.username:
         auth = ["-u", args.username, "-p", args.password, "--authenticationDatabase", "admin"]
     else:
         auth = []
 
-    check_call([args.shellpath, "--norc",
+    check_call([args.shellpath, "--norc", "--ssl", "--sslAllowInvalidCertificates", "--sslCAFile", args.cacertpath, "--sslAllowInvalidHostnames",
           "--host", args.hostname, "--port", args.port,
           "--eval", "print('db version: ' + db.version());"
           " db.serverBuildInfo().gitVersion;"] + auth)
@@ -221,15 +224,15 @@ def main():
               ");")
 
     commands = '\n'.join(commands)
-    print commands
 
     with NamedTemporaryFile(suffix='.js') as js_file:
         js_file.write(commands)
         js_file.flush()
+        print(js_file.name)
 
         # Open a mongo shell subprocess and load necessary files.
         mongo_proc = Popen([args.shellpath, "--norc", "--quiet", js_file.name,
-                           "--host", args.hostname, "--port", args.port] + auth,
+                           "--host", args.hostname, "--port", args.port, "--ssl", "--sslAllowInvalidCertificates", "--sslCAFile", args.cacertpath, "--sslAllowInvalidHostnames"] + auth,
                            stdout=PIPE)
 
         # Read test output.
@@ -258,6 +261,7 @@ def main():
                 line_results += line
 
     print("Finished Testing.")
+    print(line_results)
     results_parsed = json.loads(line_results)
     if args.outfile:
         out = open(args.outfile, 'w')

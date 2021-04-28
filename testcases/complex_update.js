@@ -14,7 +14,7 @@ tests.push( { name: "Update.SetWithIndex.Random",
               pre: function( collection ) {
                   collection.drop();
                   var docs = [];
-                  for ( var i = 0; i < 4800; i++ ) {
+                  for ( var i = 0; i < 44800; i++ ) {
                       docs.push( { _id : i , x : 0 } );
                   }
                   collection.insert(docs);
@@ -39,7 +39,7 @@ tests.push( { name: "Update.SetWithMultiIndex.Random",
               pre: function( collection ) {
                   collection.drop();
                   var docs = [];
-                  for ( var i = 0; i < 4800; i++ ) {
+                  for ( var i = 0; i < 44800; i++ ) {
                       docs.push( { _id : i , x : 0, y : i } );
                   }
                   collection.insert(docs);
@@ -65,7 +65,7 @@ tests.push( { name: "Update.SetWithMultiIndex.String",
               pre: function( collection ) {
                   collection.drop();
                   var docs = [];
-                  for ( var i = 0; i < 4800; i++ ) {
+                  for ( var i = 0; i < 44800; i++ ) {
                       docs.push( { _id : i , x : 0, y : generateRandomString(1024) } );
                   }
                   collection.insert(docs);

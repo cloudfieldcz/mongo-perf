@@ -4,7 +4,7 @@ if ( typeof(tests) != "object" ) {
 
 var setupTestBigAllDocs = function( collection ) {
    collection.drop();
-   for ( var i = 0; i < 100000; i++ ) {
+   for ( var i = 0; i < 51000; i++ ) {
       collection.insert( { _id : i , x : 0 } );
    }
 };
@@ -22,13 +22,13 @@ var testBigAllDocs = [
  *        and integer field x = 0
  * Test: Increment the x field on all 100k documents
  */
-tests.push( { name: "MultiUpdate.BigAllDocs.NoIndex",
-              tags: ['update','slow'],
-              pre: function( collection ) {
-                  setupTestBigAllDocs( collection );                                
-              },
-              ops: testBigAllDocs,
-            } );       
+// tests.push( { name: "MultiUpdate.BigAllDocs.NoIndex",
+//               tags: ['update','slow'],
+//               pre: function( collection ) {
+//                   setupTestBigAllDocs( collection );                                
+//               },
+//               ops: testBigAllDocs,
+//             } );       
               
 /*
  * Setup: Create a collection with 100k documents with integer _id,
@@ -47,7 +47,7 @@ tests.push( { name: "MultiUpdate.BigAllDocs.Indexed",
             
 var setupTestBigAllDocsMultiChange = function( collection ) {
    collection.drop();
-   for ( var i = 0; i < 100000; i++ ) {
+   for ( var i = 0; i < 51000; i++ ) {
       collection.insert( { _id : i , x : 0, y : "a" } );
    }
 };
@@ -65,13 +65,13 @@ var testBigAllDocsMultiChange = [
  *        and integer field x = 0, y='b'
  * Test: Increment the x field and set y='b' on all 100k documents.
  */
-tests.push( { name: "MultiUpdate.BigAllDocsMultiChange.NoIndex",
-              tags: ['update','slow'],
-              pre: function( collection ) {
-                  setupTestBigAllDocsMultiChange( collection );                                
-              },
-              ops: testBigAllDocsMultiChange,
-            } );       
+// tests.push( { name: "MultiUpdate.BigAllDocsMultiChange.NoIndex",
+//               tags: ['update','slow'],
+//               pre: function( collection ) {
+//                   setupTestBigAllDocsMultiChange( collection );                                
+//               },
+//               ops: testBigAllDocsMultiChange,
+//             } );       
               
 /*
  * Setup: Create a collection with 100k documents with integer _id,
@@ -92,7 +92,7 @@ tests.push( { name: "MultiUpdate.BigAllDocsMultiChange.Indexed",
 
 var setupTestContendedAllDocs = function( collection ) {
    collection.drop();
-   for ( var i = 0; i < 3200; i++ ) {
+   for ( var i = 0; i < 53200; i++ ) {
       collection.insert( { _id : i , x : 0 } );
    }
 };
@@ -110,13 +110,13 @@ var testContendedAllDocs = [
  *        and integer field x = 0
  * Test: Increment the x field on all 3200 documents
  */
-tests.push( { name: "MultiUpdate.Contended.AllDocs.NoIndex",
-              tags: ['update','slow'],
-              pre: function( collection ) {
-                  setupTestContendedAllDocs( collection );
-              },
-              ops: testContendedAllDocs,
-            } );   
+// tests.push( { name: "MultiUpdate.Contended.AllDocs.NoIndex",
+//               tags: ['update','slow'],
+//               pre: function( collection ) {
+//                   setupTestContendedAllDocs( collection );
+//               },
+//               ops: testContendedAllDocs,
+//             } );   
               
 /*
  * Setup: Create a collection with 3200 documents with integer _id,

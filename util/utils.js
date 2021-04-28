@@ -1,3 +1,12 @@
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+  }
+
+
 function prepOp(collection, op) {
 
     function fixString(str) {
@@ -328,6 +337,9 @@ function runTest(test, thread, multidb, multicoll, runSeconds, shard, crudOption
     if ("pre" in test) {
         for (var i = 0; i < (multidb * multicoll); i++) {
             test.pre(collections[i], env);
+            print("Sleeping after pre phase on collection " + collections[i]);
+            sleep(60000);
+            print("Pre finished...");   
         }
     }
 
@@ -420,10 +432,13 @@ function runTest(test, thread, multidb, multicoll, runSeconds, shard, crudOption
 
     tracer.done();
 
+    print("Raw result:");
+    printjson(result);
+
     // drop all the collections created by this case
     for (var i = 0; i < multidb; i++) {
         for (var j = 0; j < multicoll; j++) {
-            collections[(multicoll * i) + j].drop();
+            //collections[(multicoll * i) + j].drop();
         }
     }
 
@@ -642,22 +657,16 @@ function runTests(threadCounts, multidb, multicoll, seconds, trials, includeFilt
         var bi = db.runCommand("buildInfo");
 
         basicFields.commit = bi.gitVersion;
-        if (bi.sysInfo) {
-            basicFields.platform = bi.sysInfo.split(" ")[0];
-        }
-        else if (bi.buildEnvironment.target_os) {
-            basicFields.platform = bi.buildEnvironment.target_os;
-        }
-        else {
-            basicFields.platform = "Unknown Platform";
-        }
+        
+        basicFields.platform = "Unknown Platform";
+        
         basicFields.version = bi.version;
         basicFields.crudOptions = crudOptions; // Map
         testResults['basicFields'] = basicFields;
     }
 
     // Save storage engine information
-    testResults['storageEngine'] = db.runCommand("serverStatus").storageEngine.name;
+    // testResults['storageEngine'] = db.runCommand("serverStatus").storageEngine.name;
 
     print("@@@START@@@");
     testResults['start'] = new Date();
