@@ -57,6 +57,9 @@ def parse_arguments():
     parser.add_argument('-s', '--shell', dest='shellpath',
                         help="Path to the mongo shell executable to use.",
                         default='mongo')
+    parser.add_argument('--caCertPath', dest='cacertpath',
+                        help="Path to trust certs",
+                        default='/etc/ssl/certs/ca-certificates.crt')
     parser.add_argument('--safe', dest='safeMode',
                         nargs='?', const='true', choices=['true', 'false'],
                         help='this option enables a call to GLE after every op instead of every 100 ops',
@@ -161,7 +164,6 @@ def main():
             args.includeFilter = '%'
 
 
-
     if args.username:
         auth = ["-u", args.username, "-p", args.password, "--authenticationDatabase", "admin"]
     else:
@@ -224,6 +226,7 @@ def main():
               ");")
 
     commands = '\n'.join(commands)
+    print("Commands: " + commands)
 
     with NamedTemporaryFile(suffix='.js') as js_file:
         js_file.write(commands)

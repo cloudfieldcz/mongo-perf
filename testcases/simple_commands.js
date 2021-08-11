@@ -1,4 +1,4 @@
-if (typeof(tests) != "object") {
+    if (typeof(tests) != "object") {
     tests = [];
 }
 

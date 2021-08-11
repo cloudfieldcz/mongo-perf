@@ -432,8 +432,9 @@ function runTest(test, thread, multidb, multicoll, runSeconds, shard, crudOption
 
     tracer.done();
 
-    print("Raw result:");
+    print("result:");
     printjson(result);
+    print(JSON.stringify(tracer))
 
     // drop all the collections created by this case
     for (var i = 0; i < multidb; i++) {
